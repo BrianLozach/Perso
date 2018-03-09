@@ -27,20 +27,22 @@ print("Cumul de la Variance expliquée : ", pca.explained_variance_ratio_.sum())
 # projeter X sur les composantes principales
 X_projected = pca.transform(X_scaled)
 
-# afficher chaque observation puis colorer en utilisant la variable 'Rank'
-# plt.scatter(X_projected[:, 0], X_projected[:, 1], c=data.get('Rank'))
+# afficher chaque observation puis colorer en utilisant la variable 'Rank'plt.figure(1)
+plt.figure(1)
+plt.subplot(221)
+plt.scatter(X_projected[:, 0], X_projected[:, 1], c=data.get('Rank'))
 
-# plt.xlim([-5.5, 5.5])
-# plt.ylim([-4, 4])
-# plt.colorbar()
+plt.xlim([-5.5, 5.5])
+plt.ylim([-4, 4])
+plt.colorbar()
 
 pcs = pca.components_
-
+plt.subplot(222)
 for i, (x, y) in enumerate(zip(pcs[0, :], pcs[1, :])):
     # Afficher un segment de l'origine au point (x, y)
     plt.plot([0, x], [0, y], color='k')
     # Afficher le nom (data.columns[i]) de la performance
-    plt.text(x, y, data.columns[i], fontsize='14')
+    plt.text(x, y, data.columns[i], fontsize='9')
 
 # Afficher une ligne horizontale y=0
 plt.plot([-0.7, 0.7], [0, 0], color='grey', ls='--')
