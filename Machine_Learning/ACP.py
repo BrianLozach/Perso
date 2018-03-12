@@ -4,7 +4,7 @@ from sklearn import preprocessing
 from sklearn import decomposition
 
 # charger les données
-data = pd.read_csv('C:/Users/Brian/Documents/PFE_SOPRA/OpenClassrooms/Machine_Learning_Adv/decathlon.txt', sep="\t")
+data = pd.read_csv('C:/Users/Brian/Documents/MachineLearning/PCA_Decathlon/decathlon_dataset.txt', sep="\t")
 
 # éliminer les colonnes que nous n'utiliserons pas
 my_data = data.drop(['Points', 'Rank', 'Competition'], axis=1)
@@ -29,7 +29,6 @@ X_projected = pca.transform(X_scaled)
 
 # afficher chaque observation puis colorer en utilisant la variable 'Rank'plt.figure(1)
 plt.figure(1)
-plt.subplot(221)
 plt.scatter(X_projected[:, 0], X_projected[:, 1], c=data.get('Rank'))
 
 plt.xlim([-5.5, 5.5])
@@ -37,7 +36,7 @@ plt.ylim([-4, 4])
 plt.colorbar()
 
 pcs = pca.components_
-plt.subplot(222)
+plt.figure(2)
 for i, (x, y) in enumerate(zip(pcs[0, :], pcs[1, :])):
     # Afficher un segment de l'origine au point (x, y)
     plt.plot([0, x], [0, y], color='k')
@@ -52,6 +51,5 @@ plt.plot([0, 0], [-0.7, 0.7], color='grey', ls='--')
 
 plt.xlim([-0.7, 0.7])
 plt.ylim([-0.7, 0.7])
-
 
 plt.show()
