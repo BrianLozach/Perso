@@ -49,7 +49,7 @@ def increasing_function(L):
 
 
 # %% Chargement du dataset
-house_data_raw = pd.read_csv('/Users/brianlz/Documents/MachineLearning/Regression_Loyer/house.csv')
+house_data_raw = pd.read_csv('/Users/brianlz/Documents/DataScience/Regression_Loyer/house.csv')
 house_data = house_data_raw[house_data_raw['price'] < 7000]
 arr01_data = house_data[house_data['arrondissement'] == 1]
 arr02_data = house_data[house_data['arrondissement'] == 2]
