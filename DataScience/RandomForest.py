@@ -6,8 +6,8 @@ import timeit
 
 # Data Import
 
-train = pd.read_csv("C:/Users/Brian/Documents/MachineLearning/Human_Activity_Recognition/test.csv")
-test = pd.read_csv("C:/Users/Brian/Documents/MachineLearning/Human_Activity_Recognition/train.csv")
+train = pd.read_csv("/Users/brianlz/Documents/DataScience/Human_Activity_Recognition/train.csv")
+test = pd.read_csv("/Users/brianlz/Documents/DataScience/Human_Activity_Recognition/test.csv")
 
 train_x = train.iloc[:, :-2]
 train_y = train['Activity']
