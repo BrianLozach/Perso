@@ -28,22 +28,15 @@ X_test = X_test.drop('Sex_OLD', axis=1)
 
 from sklearn.ensemble import RandomForestClassifier
 
-clf = RandomForestClassifier(max_depth=2)
+clf = RandomForestClassifier(n_estimators=1000)
 clf = clf.fit(X_train, Y_train)
 
 y_test = clf.predict(X_test)
-
-print(y_test)
-
+y_test = np.around(y_test.astype(int),0)
+np.savetxt("Results.csv", y_test, delimiter=",", fmt='%0.0f')
 
 
 # Results ---------------------------------------------
-
-import csv
-with open('Results.csv', 'wb') as f:
-    writer = csv.writer(f)
-    for i in y_test:
-        writer.writerow(i)
 
 
 
