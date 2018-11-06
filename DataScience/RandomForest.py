@@ -31,23 +31,24 @@ print("Time elapsed : ", time)
 
 # Variable Selection
 
-select = SelectFromModel(rfc, prefit=True, threshold=0.005)
-train_x2 = rfc.transform(train_x)
-print("\nNew Shape of the training dataset : ", train_x2.shape)
+# select = SelectFromModel(rfc, prefit=True, threshold=0.005)
+# train_x2 = rfc.transform(train_x)
+# print("\nNew Shape of the training dataset : ", train_x2.shape)
+#
+# # New RF model with Variable Selection
+#
+# rfc2 = RandomForestClassifier(n_estimators=500, oob_score=True)
+# rfc2 = rfc2.fit(train_x2, train_y)
+# # model2 = rfc2.fit(train_x2, train_y)
+#
+# test_x2 = model.transform(test_x)
+#
+# start_time2 = timeit.default_timer()
+# pred2 = rfc2.predict(test_x2)
+# elapsed2 = timeit.default_timer() - start_time2
+# time2 = elapsed2
+# accuracy = accuracy_score(test_y, pred2)
+#
+# print("\nAccuracy of the Random Forest with Variable Selection :", accuracy)
+# print("Time elapsed : ", time2)
 
-# New RF model with Variable Selection
-
-rfc2 = RandomForestClassifier(n_estimators=500, oob_score=True)
-rfc2 = rfc2.fit(train_x2, train_y)
-# model2 = rfc2.fit(train_x2, train_y)
-
-test_x2 = model.transform(test_x)
-
-start_time2 = timeit.default_timer()
-pred2 = rfc2.predict(test_x2)
-elapsed2 = timeit.default_timer() - start_time2
-time2 = elapsed2
-accuracy = accuracy_score(test_y, pred2)
-
-print("\nAccuracy of the Random Forest with Variable Selection :", accuracy)
-print("Time elapsed : ", time2)

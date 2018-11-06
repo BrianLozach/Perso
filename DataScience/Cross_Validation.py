@@ -5,7 +5,7 @@ from sklearn import model_selection
 from sklearn import preprocessing
 from sklearn import neighbors, metrics
 
-data = pd.read_csv('C:/Users/Brian/Documents/MachineLearning/Cross-Validation_Vines/winequality-white.csv', sep=";")
+data = pd.read_csv('/Users/brianlz/Documents/DataScience/Cross-Validation_Vines/winequality-white.csv', sep=";")
 # print(data.head())
 
 X = data.as_matrix(data.columns[:-1])
