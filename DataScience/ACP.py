@@ -4,7 +4,7 @@ from sklearn import preprocessing
 from sklearn import decomposition
 
 # charger les données
-data = pd.read_csv('C:/Users/Brian/Documents/MachineLearning/PCA_Decathlon/decathlon_dataset.txt', sep="\t")
+data = pd.read_csv('/Users/brianlz/Documents/DataScience/PCA_Decathlon/decathlon_dataset.txt', sep="\t")
 
 # éliminer les colonnes que nous n'utiliserons pas
 my_data = data.drop(['Points', 'Rank', 'Competition'], axis=1)
