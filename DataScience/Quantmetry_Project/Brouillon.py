@@ -1,9 +1,11 @@
 # LIBRAIRIES
 
 import pandas as pd
-pd.set_option('display.max_columns',10)
+
+pd.set_option('display.max_columns', 10)
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn import linear_model
 
 from sklearn import model_selection
 from sklearn import preprocessing
@@ -23,34 +25,33 @@ data = pd.read_csv('/Users/brianlz/Documents/DataScience/Projet_Quantmetry/data_
 
 # DATA CLEANING ---------------------------------------------
 
-data = data.drop(['date', 'dispo'], axis=1)
+data = data.drop(['date'], axis=1)
 data = data.loc[:, ~data.columns.str.contains('^Unnamed')]
 
-
-data = data.dropna(subset=['note', 'cheveux', 'sexe', 'age', 'salaire', 'diplome', 'specialite'])
+data = data.dropna()
 
 Y = data['embauche']
-X = data.drop(['embauche'], axis=1)
-
-print("Shape of X : ", X.shape)
+X = data
 
 set = [X]
 
 for entry in set:
     entry['sexe'] = entry['sexe'].map({'F': 1, 'M': 0}).astype(float)
 
+    entry['dispo'] = entry['dispo'].map({'oui': 1, 'non': 0}).astype(float)
+
     # entry['diplome'] = entry['diplome'].fillna('bac')
     entry['diplome'] = entry['diplome'].map({'bac': 0, 'licence': 1, 'master': 2, 'doctorat': 3}).astype(float)
 
     entry['specialite'] = entry['specialite'].fillna('geologie')
-    entry['specialite'] = entry['specialite'].map({'archeologie': 0, 'geologie': 1, 'detective': 3, 'forage': 4}).astype(float)
+    entry['specialite'] = entry['specialite'].map(
+        {'archeologie': 0, 'geologie': 1, 'detective': 3, 'forage': 4}).astype(float)
 
     entry['age'] = entry['age'].fillna(35.)
 
     entry['exp'] = entry['exp'].fillna(9.)
 
     entry['cheveux'] = entry['cheveux'].map({'roux': 0, 'blond': 1, 'brun': 2, 'chatain': 3}).astype(float)
-
 
 # Normalisation des variables
 
@@ -61,7 +62,9 @@ X_std = std_scale.transform(X)
 mat_corr = X.corr()
 print(mat_corr)
 
+clf = linear_model.Lasso(alpha=0.1)
 
+print(clf.coef_)
 
 # ACP ********************************************
 
@@ -109,8 +112,6 @@ print(mat_corr)
 #
 # plt.show()
 
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$
-
 
 # mat_corr = X.corr()
 # print(mat_corr)
@@ -119,22 +120,7 @@ print(mat_corr)
 # MODEL
 #
 X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X_std, Y, test_size=0.2)
-#
-# # FIRST IMPLEMENTATION : Logistic Regression with CrossValidation  ---------------------------------------------
-#
-# def compute_score(clf, X, Y):
-#     xval = cross_val_score(clf, X, Y, cv=5)
-#     return np.mean(xval)
-#
-# lr = LogisticRegression()
-# results = compute_score(lr,X_train, Y_train)
-# lr.fit(X_train, Y)
-#
-# Y_LR = lr.predict(X_test)
-#
-# submission_LR = pd.DataFrame({"PassengerId": passenger_ID_test ,"Survived": Y_LR})
-# submission_LR.to_csv('/Users/brianlz/Documents/DataScience/Titanic_Kaggle/Results/ResultsLR.csv', index=False)
-#
+
 # # SECOND IMPLEMENTATION : RANDOM FOREST  ---------------------------------------------
 #
 # clf = RandomForestClassifier(n_estimators=500)
@@ -173,18 +159,20 @@ X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X_std, Y, te
 
 # GRADIENT BOOSTNG CLASSIFIER ***********************************
 
-params = {"learning_rate": [1, 0.3, 0.2, 0.1, 0.05], "max_depth": [2, 3, 4, 5], "subsample": [1.0, 0.8]}
+# , 0.3, 0.2, 0.1, 0.05]     3, 4, 5      0.8
 
-gbc = GradientBoostingClassifier()
-
-grille = model_selection.GridSearchCV(estimator=gbc, param_grid=params, scoring="accuracy")
-
-results = grille.fit(X_train, Y_train)
-print("\nMeilleurs Paramètres : ", results.best_params_)
-
-Y_pred = results.predict(X_test)
-
-score_gbc = metrics.accuracy_score(Y_test, Y_pred)
-print("\nScore sur le jeu de Test : ", score_gbc)
-# print(gbc.score(X_test, Y_test))
+# params = {"learning_rate": [1], "max_depth": [2], "subsample": [1.0]}
+#
+# gbc = GradientBoostingClassifier()
+#
+# # grille = model_selection.GridSearchCV(estimator=gbc, param_grid=params, scoring="accuracy", cv=5)
+#
+# results = gbc.fit(X_train, Y_train)
+# # print("\nMeilleurs Paramètres : ", results.best_params_)
+#
+# Y_pred = results.predict(X_test)
+#
+# score_gbc = metrics.accuracy_score(Y_test, Y_pred) * 100
+# print("\nScore sur le jeu de Test : %.2f" % score_gbc )
+# # print(gbc.score(X_test, Y_test))
 # print("\nFeature Importance : ", gbc.feature_importances_)
